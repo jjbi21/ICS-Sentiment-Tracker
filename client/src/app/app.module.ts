@@ -5,34 +5,18 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { CarouselCardComponent } from './components/carousel-card/carousel-card.component';
-import { ArtistPageComponent } from './pages/artist-page/artist-page.component';
-import { AlbumPageComponent } from './pages/album-page/album-page.component';
-import { TrackPageComponent } from './pages/track-page/track-page.component';
-import { AboutComponent } from './components/about/about.component';
-import { TrackListComponent } from './components/track-list/track-list.component';
-import { CarouselComponent } from './components/carousel/carousel.component';
-import { SearchComponent } from './components/search/search.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { ThermometerComponent } from './components/thermometer/thermometer.component';
 import { GraphComponent } from './components/graph/graph.component';
 import { FilterComponent } from './components/filter/filter.component';
+import { AboutPageComponent } from './pages/about-page/about-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent,
-    CarouselCardComponent,
-    ArtistPageComponent,
-    AlbumPageComponent,
-    TrackPageComponent,
-    TrackListComponent,
-    CarouselComponent,
-    SearchComponent,
     HomePageComponent,
-    ThermometerComponent,
     GraphComponent,
-    FilterComponent
+    FilterComponent,
+    AboutPageComponent
   ],
   imports: [
     BrowserModule,

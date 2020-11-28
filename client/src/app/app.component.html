@@ -1,17 +1,18 @@
-<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item navbar-brand">
-        <a class="navbar-brand" href="/">
-          Browsing spotify
-        </a>
-      </li>
-    </ul>
-    <ul class="navbar-nav navbar-right mr-auto">
-      <li class="nav-item">
-        <a class="btn btn-dark" role="button" href="http://localhost:8888/login">Log in</a>
-      </li>
-    </ul>
-  </nav>
-<main class="container-fluid">
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-primary mb-0">
+  <div class="container">
+    <a href="../" class="navbar-brand">ICS Sentiment Tracker</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="../about/">About</a>
+          </li>
+        </ul>
+      </div>
+  </div>
+</nav>
+<main class="">
 	<router-outlet></router-outlet>
 </main>
