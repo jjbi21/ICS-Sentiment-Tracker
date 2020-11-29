@@ -6,7 +6,7 @@ import { SentimentData } from '../data/sentiment-data';
   providedIn: 'root'
 })
 export class SentimentService {
-	expressBaseUrl:string = 'http://localhost:8888';
+    expressBaseUrl:string = 'http://localhost:8888';
 
   constructor(private http:HttpClient) { }
 
@@ -20,7 +20,12 @@ export class SentimentService {
   // specify the course
   getMessageData(courseName:string):Promise<SentimentData[]> {
       console.log(window.location.pathname);
-      
+        return this.sendRequestToExpress('/course/'+encodeURIComponent(courseName)).then((data) => {
+            console.log(data);
+            return data.map ( (message) => {
+            return new SentimentData(message);
+        });
+          });
     return Promise.resolve(this.http.get('./assets/inf133sentiment.json').toPromise()).then((data) => {
         console.log(data);
         return null;
