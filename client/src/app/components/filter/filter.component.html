@@ -1,3 +1,11 @@
-<p>
-  filter works!
-</p>
+<h1>Filter by time, class</h1>
+
+<select [(ngModel)]="timeFilterCategory">
+  <option *ngFor="let cat of timeFilterCategories" [ngValue]="cat">{{cat}}</option>
+</select>
+
+<select [(ngModel)]="classCategory">
+  <option *ngFor="let cat of classCategories" [ngValue]="cat">{{cat}}</option>
+</select>
+
+<button (click)="filter()" class="btn btn-light">Filter</button>
