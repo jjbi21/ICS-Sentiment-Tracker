@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SentimentService } from 'src/app/services/sentiment.service';
-import demodata from '../../../assets/inf33sentiment.json';
+import demodata from '../../../assets/inf133sentiment.json';
 import { SentimentData } from '../../data/sentiment-data';
 
 

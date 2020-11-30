@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SentimentService } from 'src/app/services/sentiment.service';
-import inf133data from '../../../assets/inf33sentiment.json';
+import inf133data from '../../../assets/inf133sentiment.json';
 import cs143adata from '../../../assets/cs143asentiment.json';
 import { SentimentData } from '../../data/sentiment-data';
 
@@ -25,7 +25,7 @@ export class FilterComponent implements OnInit {
   filter()
   {
     let result = [];
-    let data = inf133data;
+    let data = null;
     if (this.classCategory === 'INF 133')
       data = inf133data;
     else if (this.classCategory === 'CS 143A')
@@ -36,35 +36,36 @@ export class FilterComponent implements OnInit {
     switch (this.timeFilterCategory)
     {
       case "Past day":
-        for (let message of data)
+        for (let message in data)
         {
-          if (Math.abs(today.getTime() - new Date(message['timestamp']).getTime()) / 36e5 < 24)
-            result.push(new SentimentData(message));
+          if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / 36e5 < 24)
+            result.push(new SentimentData(data[message]));
         }
         break;
       case "Past week":
-        for (let message of data)
+        for (let message in data)
         {
-          if (Math.abs(today.getTime() - new Date(message['timestamp']).getTime()) / (24 * 60 * 60 * 1000) < 7)
-            result.push(new SentimentData(message));
+          if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / (24 * 60 * 60 * 1000) < 7)
+            result.push(new SentimentData(data[message]));
         }
         break;
       case "Past month":
-        for (let message of data)
+        for (let message in data)
         {
-          if (today.getMonth() == new Date(message['timestamp']).getMonth())
-            result.push(new SentimentData(message));
+          if (today.getMonth() == new Date(data[message].timestamp).getMonth())
+            result.push(new SentimentData(data[message]));
         }
         break;
       case "Past year":
-        for (let message of data)
+        for (let message in data)
         {
-          if (Math.abs(today.getTime() - new Date(message['timestamp']).getTime()) / (24 * 60 * 60 * 1000) < 365)
-            result.push(new SentimentData(message));
+          if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / (24 * 60 * 60 * 1000) < 365)
+            result.push(new SentimentData(data[message]));
         }
         break;
       default:
-        data.forEach(x => result.push(new SentimentData(x)));
+        for (let message in data)
+          result.push(new SentimentData(data[message]));
         break;
       }
       this.result_list = result;
