@@ -12,7 +12,7 @@ import { SentimentData } from '../../data/sentiment-data';
 export class FilterComponent implements OnInit {
   timeFilterCategory:string = 'Past day';
   timeFilterCategories:string[] = ["Past day", "Past week", "Past month", "Past year", "All time"];
-  classCategory:string = "Select class";
+  classCategory:string = null;
   classCategories: string[] = ["INF 133", "CS 143A"];
   result_list: SentimentData[];
 
@@ -24,53 +24,60 @@ export class FilterComponent implements OnInit {
 
   filter()
   {
-    let result = [];
+    /*let result = [];
     let data = null;
     if (this.classCategory === 'INF 133')
       data = inf133data;
     else if (this.classCategory === 'CS 143A')
-      data = cs143adata;
+      data = cs143adata;*/
+    this.service.course = this.classCategory;
 
    
     let today = new Date();
     switch (this.timeFilterCategory)
     {
       case "Past day":
-        for (let message in data)
+        /*for (let message in data)
         {
           if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / 36e5 < 24)
             result.push(new SentimentData(data[message]));
-        }
+        }*/
+        this.service.date = new Date(today.getTime() - (24 * 60 * 60 * 1000));
         break;
       case "Past week":
-        for (let message in data)
+        /*for (let message in data)
         {
           if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / (24 * 60 * 60 * 1000) < 7)
             result.push(new SentimentData(data[message]));
-        }
+        }*/
+        this.service.date = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 7));
         break;
       case "Past month":
-        for (let message in data)
+        /*for (let message in data)
         {
           if (today.getMonth() == new Date(data[message].timestamp).getMonth())
             result.push(new SentimentData(data[message]));
-        }
+        }*/
+        this.service.date = new Date(today.getFullYear(), today.getMonth(), 1);
         break;
       case "Past year":
-        for (let message in data)
+        /*for (let message in data)
         {
           if (Math.abs(today.getTime() - new Date(data[message].timestamp).getTime()) / (24 * 60 * 60 * 1000) < 365)
             result.push(new SentimentData(data[message]));
-        }
+        }*/
+        this.service.date = new Date(today.getTime() - (24 * 60 * 60 * 1000 * 365));
         break;
       default:
-        for (let message in data)
-          result.push(new SentimentData(data[message]));
+        /*for (let message in data)
+          result.push(new SentimentData(data[message]));*/
+        this.service.date = new Date(0);
         break;
       }
-      this.result_list = result;
+      console.log(this.service.date);
+      /*this.result_list = result;
       console.log(this.result_list);
-      console.log(new Date(this.result_list[0].timestamp).getTime());
+      console.log(new Date(this.result_list[0].timestamp).getTime());*/
   }
 
 }
