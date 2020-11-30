@@ -21,13 +21,23 @@ const limiter = rateLimit({
 });
 router.use(limiter);
 
-router.get('/course/:name', function(req, res, next) {
-	var name = req.params.name;
-	console.log(name);
-	ref.child(name).once('value').then((dataSnapshot) => {
+router.get('/courses', (req, res, next) => {
+	ref.child('courses').once('value').then((dataSnapshot) => {
+		return dataSnapshot.val();
+	}).then(json => {
+		res.json(json);
+	}).catch(err => {
+		console.error(err);
+	});
+});
+
+router.get('/messages/:course/:timestamp', (req, res, next) => {
+	// course should be a string
+	var course = req.params.course;
+	var timestamp = req.params.timestamp;
+	ref.child(course).orderByKey().startAt(timestamp).once('value').then((dataSnapshot) => {
 		// handle read data.
-		// console.log(dataSnapshot);
-		// console.log(dataSnapshot.val());
+		// console.log(dataSnapshot.val);
 		return dataSnapshot.val();
 	}).then(json => {
 		res.json(json);

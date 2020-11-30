@@ -18,20 +18,25 @@ export class SentimentService {
   }
 
   // specify the course
-  getMessageData(courseName:string):Promise<SentimentData[]> {
-      console.log(window.location.pathname);
-        return this.sendRequestToExpress('/course/'+encodeURIComponent(courseName)).then((data) => {
-            console.log(data);
-            return data.map ( (message) => {
+  getMessageData(courseName:string, timestamp:Date):Promise<SentimentData[]> {
+    console.log(window.location.pathname);
+    // timestamp should be a date object, returned messages will be of dates < timestamp
+      // replace timestamp period with comma
+    return this.sendRequestToExpress('/messages/' + encodeURIComponent(courseName) + '/' + encodeURIComponent(timestamp.toISOString().replace('.',',') )).then( (data) => {
+        console.log(data);
+        return Object.values(data).map ( (message) => {
             return new SentimentData(message);
         });
-          });
-    return Promise.resolve(this.http.get('./assets/inf133sentiment.json').toPromise()).then((data) => {
-        console.log(data);
-        return null;
-        // return data.map ( (message) => {
-        //     return new SentimentData(message);
-        // });
     });
   }
+
+    getCourses():Promise<String[]> {
+        return this.sendRequestToExpress('/courses').then((data) => {
+            console.log(data);
+            // return data.map( (course) => {
+            //     return 
+            // })
+            return data;
+        });
+    }
 }
