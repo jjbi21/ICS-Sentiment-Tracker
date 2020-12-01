@@ -20,8 +20,9 @@ export class SentimentService {
     // gets array of sentiment data to send to graph, applies filters on course and timestamp
     getMessageData(courseName:string, timestamp:Date):Promise<SentimentData[]> {
         // timestamp should be a date object, processing is done here
+        console.log(courseName);
+        console.log(timestamp);
         return this.sendRequestToExpress('/messages/' + encodeURIComponent(courseName) + '/' + encodeURIComponent(timestamp.toISOString().replace('.',',') )).then( (data) => {
-            console.log(data);
             return Object.values(data).map ( (message) => {
                 return new SentimentData(message);
             });

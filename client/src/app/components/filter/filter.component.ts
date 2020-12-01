@@ -13,7 +13,7 @@ export class FilterComponent implements OnInit {
   timeFilterCategory:string = 'Past day';
   timeFilterCategories:string[] = ["Past day", "Past week", "Past month", "Past year", "All time"];
   classCategory:string = null;
-  classCategories: string[] = ["INF 133", "CS 143A"];
+  classCategories: string[] = ["inf133", "cs143a"];
   result_list: SentimentData[];
 
 
@@ -74,7 +74,10 @@ export class FilterComponent implements OnInit {
         this.service.date = new Date(0);
         break;
       }
-      console.log(this.service.date);
+      this.service.getMessageData(this.service.course, this.service.date).then(response => {
+          this.result_list = response;
+          console.log(this.result_list)
+      });
       /*this.result_list = result;
       console.log(this.result_list);
       console.log(new Date(this.result_list[0].timestamp).getTime());*/

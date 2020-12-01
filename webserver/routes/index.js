@@ -36,7 +36,10 @@ router.get('/courses', (req, res, next) => {
 router.get('/messages/:course/:timestamp', (req, res, next) => {
 	var course = req.params.course;
 	var timestamp = req.params.timestamp;
+	console.log(course);
+	console.log(timestamp);
 	ref.child(course).orderByKey().startAt(timestamp).once('value').then((dataSnapshot) => {
+		console.log(dataSnapshot.val())
 		return dataSnapshot.val();
 	}).then(json => {
 		res.json(json);
