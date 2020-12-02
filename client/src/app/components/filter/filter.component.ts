@@ -84,13 +84,13 @@ export class FilterComponent implements OnInit {
       if (this.timeFilterCategory == 'Past year') {
            console.log(this.year());
            var year_values = this.year();
-          var data_points = [{ 'month': 'May', 'num': 1 }, {'month':'June', 'num':2}]
+          var data_points = [{ 'month': 'May', 'num': 1 }, { 'month': 'June', 'num': 2 }]
 
-             const spec = {
+             var spec = {
                   "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0-beta.8.json",
                   "description": "A graph of the number of Tweets containing each type of activity.",
                   "data": {
-                      "values": data_points 
+                      "values": year_values 
                   },
                   //TODO: Add mark and encoding
                  "mark": "bar",
