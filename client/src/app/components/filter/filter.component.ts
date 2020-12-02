@@ -81,31 +81,34 @@ export class FilterComponent implements OnInit {
       this.service.getMessageData(this.service.course, this.service.date).then(response => {
           this.result_list = response;
 
-          if (this.timeFilterCategory === 'Past year') {
-              console.log(this.year());
-              var year_values = this.year();
+      if (this.timeFilterCategory == 'Past year') {
+           console.log(this.year());
+           var year_values = this.year();
+          var data_points = [{ 'month': 'May', 'num': 1 }, {'month':'June', 'num':2}]
 
-              var spec = {
+             const spec = {
                   "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0-beta.8.json",
                   "description": "A graph of the number of Tweets containing each type of activity.",
                   "data": {
-                      "values": year_values
+                      "values": data_points 
                   },
                   //TODO: Add mark and encoding
-                  "mark": "bar",
+                 "mark": "bar",
                   "encoding": {
                       x: {
                           "field": "month",
                           "type": "nominal"
                       },
                       y: {
+                          "field": "avg",
                           "aggregate": "count",
                           "type": "quantitative"
-
+            
                       }
                   }
               };
-              //var result = embed('#past_year_vis', spec);
+          
+          embed('#past_year_vis', spec, { actions: false });
           }
           
           if (this.timeFilterCategory === 'All time') {
@@ -201,7 +204,7 @@ export class FilterComponent implements OnInit {
 
     year() {
         var year_result = {};
-        var final = {};
+        var final = new Array();
         var year_key = { 0: 'Jan', 1: 'Feb', 2: 'Mar', 3: 'Apr', 4: 'May', 5: 'Jun', 6: 'Jul', 7: 'Aug', 8: 'Sep', 9: 'Oct', 10: 'Nov', 11: 'Dec' };
         for (var x = 0; x < this.result_list.length; x++) {
             var data_date = new Date(this.result_list[x].timestamp)
@@ -218,7 +221,7 @@ export class FilterComponent implements OnInit {
         const sorted_months = this.sortObj(year_result);
 
         for (var month in sorted_months) {
-            final[year_key[month]] = sorted_months[month][0] / sorted_months[month][1]
+            final.push({ 'month': year_key[month], 'avg': sorted_months[month][0] / sorted_months[month][1]});
         }
 
         
