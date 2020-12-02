@@ -85,7 +85,7 @@ export class FilterComponent implements OnInit {
               console.log(this.year());
               var year_values = this.year();
 
-              const spec = {
+              var spec = {
                   "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0-beta.8.json",
                   "description": "A graph of the number of Tweets containing each type of activity.",
                   "data": {
@@ -105,7 +105,7 @@ export class FilterComponent implements OnInit {
                       }
                   }
               };
-              const result = embed('#past_year_vis', spec);
+              //var result = embed('#past_year_vis', spec);
           }
           
           if (this.timeFilterCategory === 'All time') {
