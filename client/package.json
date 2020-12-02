@@ -25,6 +25,9 @@
     "chroma-js": "^1.4.1",
     "core-js": "^2.6.10",
     "rxjs": "~6.3.3",
+    "vega": "^5.17.0",
+    "vega-embed": "^6.13.0",
+    "vega-lite": "^4.17.0",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
