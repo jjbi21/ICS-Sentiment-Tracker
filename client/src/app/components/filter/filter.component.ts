@@ -4,6 +4,8 @@ import inf133data from '../../../assets/inf133sentiment.json';
 import cs143adata from '../../../assets/cs143asentiment.json';
 import { SentimentData } from '../../data/sentiment-data';
 import embed from 'vega-embed';
+import { EChartsOption } from 'echarts';
+import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-filter',
@@ -16,13 +18,54 @@ export class FilterComponent implements OnInit {
   classCategory:string = null;
   classCategories: string[] = ["inf133", "cs143a"];
   result_list: SentimentData[];
-
+    options:any;
 
 
 
   constructor(private service:SentimentService) { }
 
   ngOnInit() {
+    const xAxisData = [];
+    const data1 = [];
+    const data2 = [];
+
+    for (let i = 0; i < 100; i++) {
+      xAxisData.push('category' + i);
+      data1.push((Math.sin(i / 5) * (i / 5 - 10) + i / 6) * 5);
+      data2.push((Math.cos(i / 5) * (i / 5 - 10) + i / 6) * 5);
+    }
+
+    this.options = {
+      legend: {
+        data: ['bar', 'bar2'],
+        align: 'left',
+      },
+      tooltip: {},
+      xAxis: {
+        data: xAxisData,
+        silent: false,
+        splitLine: {
+          show: false,
+        },
+      },
+      yAxis: {},
+      series: [
+        {
+          name: 'bar',
+          type: 'bar',
+          data: data1,
+          animationDelay: (idx) => idx * 10,
+        },
+        {
+          name: 'bar2',
+          type: 'bar',
+          data: data2,
+          animationDelay: (idx) => idx * 10 + 100,
+        },
+      ],
+      animationEasing: 'elasticOut',
+      animationDelayUpdate: (idx) => idx * 5,
+    };
   }
 
   filter()
@@ -86,29 +129,9 @@ export class FilterComponent implements OnInit {
            var year_values = this.year();
           var data_points = [{ 'month': 'May', 'num': 1 }, { 'month': 'June', 'num': 2 }]
 
-             var spec = {
-                  "$schema": "https://vega.github.io/schema/vega-lite/v4.0.0-beta.8.json",
-                  "description": "A graph of the number of Tweets containing each type of activity.",
-                  "data": {
-                      "values": year_values 
-                  },
-                  //TODO: Add mark and encoding
-                 "mark": "bar",
-                  "encoding": {
-                      x: {
-                          "field": "month",
-                          "type": "nominal"
-                      },
-                      y: {
-                          "field": "avg",
-                          "aggregate": "count",
-                          "type": "quantitative"
-            
-                      }
-                  }
-              };
+
           
-          embed('#past_year_vis', spec, { actions: false });
+
           }
           
           if (this.timeFilterCategory === 'All time') {
