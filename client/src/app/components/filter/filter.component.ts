@@ -82,6 +82,7 @@ export class FilterComponent implements OnInit {
       console.log(this.service.date)
       this.service.getMessageData(this.service.course, this.service.date).then(response => {
           this.result_list = response;
+          console.log(this.result_list);
 
       if (this.timeFilterCategory == 'Past year') {
            console.log(this.year());
@@ -168,6 +169,89 @@ export class FilterComponent implements OnInit {
                   animationDelayUpdate: (idx) => idx * 5,
               };
           }
+
+          if (this.timeFilterCategory === 'Past week')
+          {
+            console.log(this.week());
+            var week_values = this.week();
+
+            const xAxisData = [];
+            const data1 = [];
+
+
+            for (var i = 0; i < week_values.length; i++) {
+                xAxisData.push(week_values[i]['day']);
+                data1.push((week_values[i]['avg']));
+
+            }
+            this.options = {
+                legend: {
+                    data: ['day'],
+                    align: 'left',
+                },
+                tooltip: {},
+                xAxis: {
+                    data: xAxisData,
+                    silent: false,
+                    splitLine: {
+                        show: false,
+                    },
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: 'bar',
+                        type: 'bar',
+                        data: data1,
+                        animationDelay: (idx) => idx * 10,
+                    },
+
+                ],
+                animationEasing: 'elasticOut',
+                animationDelayUpdate: (idx) => idx * 5,
+            };
+          }
+          if (this.timeFilterCategory === 'Past day')
+          {
+            console.log(this.day());
+            var day_values = this.day();
+
+            const xAxisData = [];
+            const data1 = [];
+
+
+            for (var i = 0; i < day_values.length; i++) {
+                xAxisData.push(day_values[i]['hour']);
+                data1.push((day_values[i]['avg']));
+
+            }
+            this.options = {
+                legend: {
+                    data: ['hour'],
+                    align: 'left',
+                },
+                tooltip: {},
+                xAxis: {
+                    data: xAxisData,
+                    silent: false,
+                    splitLine: {
+                        show: false,
+                    },
+                },
+                yAxis: {},
+                series: [
+                    {
+                        name: 'bar',
+                        type: 'bar',
+                        data: data1,
+                        animationDelay: (idx) => idx * 10,
+                    },
+
+                ],
+                animationEasing: 'elasticOut',
+                animationDelayUpdate: (idx) => idx * 5,
+            };
+          }
          
       });
       /*this.result_list = result;
@@ -191,37 +275,38 @@ export class FilterComponent implements OnInit {
         var sun = 0;
         var sun_count = 0;
         for (var x = 0; x < this.result_list.length; x++) {
-            if (this.result_list[x].timestamp.getDay() === 0) {
+            var data_date = new Date(this.result_list[x].timestamp);
+            if (data_date.getDay() === 0) {
                 sun += this.result_list[x].sentiment;
                 sun_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 1) {
+            else if (data_date.getDay() === 1) {
                 mon += this.result_list[x].sentiment;
                 mon_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 2) {
+            else if (data_date.getDay() === 2) {
                 tues += this.result_list[x].sentiment;
                 tues_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 3) {
+            else if (data_date.getDay() === 3) {
                 wed += this.result_list[x].sentiment;
                 wed_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 4) {
+            else if (data_date.getDay() === 4) {
                 thur += this.result_list[x].sentiment;
                 thur_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 5) {
+            else if (data_date.getDay() === 5) {
                 fri += this.result_list[x].sentiment;
                 fri_count++;
             }
 
-            else if (this.result_list[x].timestamp.getDay() === 6) {
+            else if (data_date.getDay() === 6) {
                 sat += this.result_list[x].sentiment;
                 sat_count++;
             }
@@ -232,26 +317,35 @@ export class FilterComponent implements OnInit {
             'Fri': fri / fri_count, 'Sat': sat / sat_count, 'Sun': sun / sun_count
         };
 
-        return data_points;
+        var final = [];
+        for (var day in data_points)
+            final.push({'day': day, 'avg': data_points[day]});
+
+        return final;
     }
 
     day() {
+        if (this.result_list.length == 0)
+            return [];
         var day_result = {};
-        var final = {};
+        var final = [];
         for (var x = 0; x < this.result_list.length; x++) {
-            if (!(this.result_list[x].timestamp.getHours() in day_result)) {
-                day_result[this.result_list[x].timestamp.getHours()] = [this.result_list[x].sentiment, 1]
+            var data_date = new Date(this.result_list[x].timestamp);
+            if (!(data_date.getHours() in day_result)) {
+                day_result[data_date.getHours()] = [this.result_list[x].sentiment, 1]
             }
 
-            else if (this.result_list[x].timestamp.getHours() in day_result) {
-                day_result[this.result_list[x].timestamp.getHours()][0] += this.result_list[x].sentiment;
-                day_result[this.result_list[x].timestamp.getHours()][1]++;
+            else if (data_date.getHours() in day_result) {
+                day_result[data_date.getHours()][0] += this.result_list[x].sentiment;
+                day_result[data_date.getHours()][1]++;
             }
         }
 
-        for (var hour in day_result) {
+        /*for (var hour in day_result) {
             final[hour] = day_result[hour][0] / day_result[hour][1]
-        }
+        }*/
+        for (var hour = 0; hour < 24; hour++)
+            final.push({'hour': hour.toString() + ":00", 'avg': day_result[hour][0] / day_result[hour][1]});
 
         return final;
     }
