@@ -1,14 +1,15 @@
-<h1>Filter by time, class</h1>
-
-<select [(ngModel)]="timeFilterCategory">
-  <option *ngFor="let cat of timeFilterCategories" [ngValue]="cat">{{cat}}</option>
-</select>
-
-<select [(ngModel)]="classCategory">
-  <option *ngFor="let cat of classCategories" [ngValue]="cat">{{cat}}</option>
-</select>
-
-<button (click)="filter()" class="btn btn-light">Filter</button>
+<div class="text-center mb-5">
+  <h1>Sentiment Over Time</h1>
+</div>
+<div class="row">
+  <select class="col browser-default custom-select" [(ngModel)]="timeFilterCategory" alt="time category">
+    <option *ngFor="let cat of timeFilterCategories" [ngValue]="cat">{{cat}}</option>
+  </select>
+  <select class="col browser-default custom-select" [(ngModel)]="classCategory" alt="course category">
+    <option *ngFor="let cat of classCategories" [ngValue]="cat">{{cat}}</option>
+  </select>
+  <button class="col btn btn-primary" (click)="filter()" class="btn btn-light" alt="filter">Filter</button>
+</div>
 <br>
 <div id="past_year_vis"></div>
-<div echarts [options]="options" class="demo-chart"></div>
+<div echarts [options]="options" class="demo-chart" alt="Course sentiment over time graph"></div>

@@ -8,8 +8,8 @@ import { SentimentService } from 'src/app/services/sentiment.service';
 })
 export class FilterComponent implements OnInit {
     timeFilterCategory:string = 'Past day';
-    timeFilterCategories:string[] = ["Past day", "Past week", "Past month", "Past year", "All time"];
-    classCategory:string = null;
+    timeFilterCategories:string[] = ["Past day", "Past week", "Past year", "All time"];
+    classCategory:string = "inf133";
     classCategories: string[] = ["inf133", "cs143a"];
     options:any;
 
@@ -17,16 +17,13 @@ export class FilterComponent implements OnInit {
 
     ngOnInit() {}
 
+    // triggered on filter button
     filter()
     {
         this.service.course = this.classCategory;
         // gets today date and calculates date field
         this.loadDate();
-        console.log(this.service.date)
-        
         this.service.getMessageData(this.service.course, this.service.date).then(response => {
-            console.log(response);
-            
             switch (this.timeFilterCategory)
             {
                 case "All time":
@@ -41,10 +38,11 @@ export class FilterComponent implements OnInit {
                 case "Past day":
                     this.graphData('hour', this.day, response);
                     break;
-            } 
+            }
         });
     }
 
+    // sets data for chart component
     graphData(interval, parseData, rawData)
     {
         var xAxisData = [];
@@ -131,11 +129,11 @@ export class FilterComponent implements OnInit {
             dayTotals[weekdays[day]] += rawData[i].sentiment;
         }
         weekdays.forEach( (day) => {
-            dayCounts[day] /= dayTotals[day];
+            dayTotals[day] /= dayCounts[day];
         });
         var parsedData = [];
-        for (var d in dayCounts)
-            parsedData.push({'day': d, 'avg': dayCounts[d]});
+        for (var d in dayTotals)
+            parsedData.push({'day': d, 'avg': dayTotals[d]});
         return parsedData;
     }
 
@@ -156,7 +154,7 @@ export class FilterComponent implements OnInit {
                 day_result[hour][1]++;
             }
         }
-        for (var h = 0; h < 24; h++)
+        for (var h in day_result)
             parsedData.push({'hour': h.toString() + ":00", 'avg': day_result[h][0] / day_result[h][1]});
         return parsedData;
     }
@@ -214,6 +212,7 @@ export class FilterComponent implements OnInit {
         return final;
     }
 
+    // misc sort function
     sortObj(obj)
     {
         return Object.keys(obj).sort().reduce( (result, key) => {
