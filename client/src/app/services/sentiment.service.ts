@@ -20,7 +20,7 @@ export class SentimentService {
     // gets array of sentiment data to send to graph, applies filters on course and timestamp
     getMessageData(courseName:string, timestamp:Date):Promise<SentimentData[]> {
         // timestamp should be a date object, processing is done here
-        return this.sendRequestToExpress('/messages/' + encodeURIComponent(courseName) + '/' + encodeURIComponent(timestamp.toISOString().replace('.', ','))).then((data) => {
+        return this.sendRequestToExpress('/api/messages/' + encodeURIComponent(courseName) + '/' + encodeURIComponent(timestamp.toISOString().replace('.', ','))).then((data) => {
             if (data === null) {
                 return [];
             }
@@ -33,7 +33,7 @@ export class SentimentService {
 
     // gets an array of courses
     getCourses():Promise<String[]> {
-        return this.sendRequestToExpress('/courses').then((data) => {
+        return this.sendRequestToExpress('/api/courses').then((data) => {
             console.log(data);
             return data;
         });

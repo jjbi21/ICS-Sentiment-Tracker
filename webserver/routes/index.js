@@ -22,7 +22,7 @@ const limiter = rateLimit({
 router.use(limiter);
 
 // courses endpoint that returns list of courses
-router.get('/courses', (req, res, next) => {
+router.get('/api/courses', (req, res, next) => {
 	ref.child('courses').once('value').then((dataSnapshot) => {
 		return dataSnapshot.val();
 	}).then(json => {
@@ -33,7 +33,7 @@ router.get('/courses', (req, res, next) => {
 });
 
 // messages endpoint that returns an object of sentiment data filtered by course and timestamp
-router.get('/messages/:course/:timestamp', (req, res, next) => {
+router.get('/api/messages/:course/:timestamp', (req, res, next) => {
 	var course = req.params.course;
 	var timestamp = req.params.timestamp;
 	console.log(course);
